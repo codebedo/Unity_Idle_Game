@@ -18,6 +18,8 @@ public class LoadGameData : MonoBehaviour
     public TextAsset GameData;
     public GameObject StorePrefab;
     public GameObject StorePanel;
+    public GameObject ManagerPanel;
+    public GameObject ManagerPrefab;
 
     public void Start()
     {
@@ -43,9 +45,12 @@ public class LoadGameData : MonoBehaviour
         //string StartingBalance = xmlDocument.GetElementsByTagName("StartingBalanve")
         GameManager.instance.AddToBalance(float.Parse(xmlDocument.GetElementsByTagName("StartingBalance")[0].InnerText));
         string CompanyName = xmlDocument.GetElementsByTagName("CompanyName")[0].InnerText;
+
         GameManager.instance.CompanyName = CompanyName;
     }
 
+
+ 
     void LoadStores(XmlDocument xmlDocument)
     {
         XmlNodeList StoreList = xmlDocument.GetElementsByTagName("store");
@@ -53,11 +58,9 @@ public class LoadGameData : MonoBehaviour
         foreach (XmlNode StoreInfo in StoreList)
         {
 
-
-
-
             // Load store nodes
             LoadStoreNodes(StoreInfo);
+            
         }
 
     }
@@ -89,6 +92,16 @@ public class LoadGameData : MonoBehaviour
             storeobj.StoreTimerDivision = int.Parse(StoreNode.InnerText);
         if (StoreNode.Name == "StoreCount")
             storeobj.StoreCount = int.Parse(StoreNode.InnerText);
+        if (StoreNode.Name == "ManagerCost")
+            CreateManager(StoreNode, storeobj);
+
+
+    }
+    void CreateManager(XmlNode StoreNode, Store StoreObject)
+    {
+        GameObject NewManager = (GameObject)Instantiate(ManagerPrefab);
+        NewManager.transform.SetParent(ManagerPanel.transform);
+
     }
     void LoadStoreNodes(XmlNode StoreInfo)
     {
