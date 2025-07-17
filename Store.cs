@@ -13,8 +13,9 @@ public class Store : MonoBehaviour
     public bool ManagerUnlocked;
     public float StoreMultiplier;
     
-    public float StoreTimer  ;
+    public float StoreTimer;
     float CurrentTimer = 0;
+    public float ManagerCost;
     public bool StartTimer;
 
     
