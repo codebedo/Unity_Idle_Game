@@ -97,7 +97,7 @@ public class LoadGameData : MonoBehaviour
 
 
     }
-    void CreateManager(XmlNode StoreNode, Store StoreObject)
+    void CreateManager(XmlNode StoreNode, Store storeobj)
     {
         GameObject NewManager = (GameObject)Instantiate(ManagerPrefab);
         NewManager.transform.SetParent(ManagerPanel.transform);
