@@ -7,6 +7,7 @@ using System.Threading;
 using System.Globalization;
 public class Store : MonoBehaviour
 {
+    public string StoreName;
     public float BaseStoreCost;
     public float BaseStoreProfit;
     public int StoreCount;
