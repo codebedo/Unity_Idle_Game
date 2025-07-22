@@ -64,6 +64,25 @@ public class LoadGameData : MonoBehaviour
         }
 
     }
+    void LoadStoreNodes(XmlNode StoreInfo)
+    {
+        GameObject NewStore = (GameObject)Instantiate(StorePrefab);
+        Store storeobj = NewStore.GetComponent<Store>();
+
+        XmlNodeList StoreNodes = StoreInfo.ChildNodes;
+        foreach (XmlNode StoreNode in StoreNodes)
+        {
+
+            SetStoreObj(storeobj, StoreNode, NewStore);
+
+
+        }
+        // setup to store next cost
+        storeobj.SetNextStoreCost(storeobj.BaseStoreCost);
+        // Connect our store to the parent panel
+        NewStore.transform.SetParent(StorePanel.transform);
+
+    }
     void SetStoreObj(Store storeobj, XmlNode StoreNode, GameObject NewStore)
     {
         if (StoreNode.Name == "name")
@@ -101,26 +120,10 @@ public class LoadGameData : MonoBehaviour
     {
         GameObject NewManager = (GameObject)Instantiate(ManagerPrefab);
         NewManager.transform.SetParent(ManagerPanel.transform);
+        TMP_Text ManagerNameText = NewManager.transform.Find("ManagerNameText").GetComponent<TMP_Text>();
+        ManagerNameText.text = storeobj.StoreName;
 
     }
-    void LoadStoreNodes(XmlNode StoreInfo)
-    {
-        GameObject NewStore = (GameObject)Instantiate(StorePrefab);
-        Store storeobj = NewStore.GetComponent<Store>();
-
-        XmlNodeList StoreNodes = StoreInfo.ChildNodes;
-        foreach (XmlNode StoreNode in StoreNodes)
-        {
-
-            SetStoreObj(storeobj, StoreNode, NewStore);
-
-
-        }
-        // setup to store next cost
-        storeobj.SetNextStoreCost(storeobj.BaseStoreCost);
-        // Connect our store to the parent panel
-        NewStore.transform.SetParent(StorePanel.transform);
-
-    }
+   
    
 }
