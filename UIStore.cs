@@ -31,6 +31,11 @@ public class UIStore : MonoBehaviour
 
 
     }
+    public void ManagerUnlocked()
+    {
+        TMP_Text Buttontext = ManagerButton.transform.Find("UnlockManagerButtonText").GetComponent<TMP_Text>();
+        Buttontext.text = "PURCHASED";
+    }
 
     void Awake()
     {
@@ -74,13 +79,14 @@ public class UIStore : MonoBehaviour
             BuyButton.interactable = true;
         else
             BuyButton.interactable = false;
+        BuyButtonText.text = "Buy $ " + store.GetNextStoreCost().ToString("F2");
 
         // Update Manager if store manager can buy 
-        if (GameManager.instance.CanBuy(store.ManagerCost))
+        if (!store.ManagerUnlocked && GameManager.instance.CanBuy(store.ManagerCost))
             ManagerButton.interactable = true;
         else
             ManagerButton.interactable = false;
-        //TMP_Text Buttontext = ManagerButton.transform.Find("UnlockManagerButtonText").GetComponent<TMP_Text>();
+        
 
 
 
