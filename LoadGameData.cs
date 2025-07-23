@@ -90,6 +90,7 @@ public class LoadGameData : MonoBehaviour
             string SetName = StoreNode.InnerText;
             TMP_Text StoreText = NewStore.transform.Find("StoreNameText").GetComponent<TMP_Text>();
             StoreText.text = StoreNode.InnerText;
+            storeobj.StoreName = StoreNode.InnerText;
         }
         if (StoreNode.Name == "image")
         {
@@ -122,7 +123,10 @@ public class LoadGameData : MonoBehaviour
         NewManager.transform.SetParent(ManagerPanel.transform);
         TMP_Text ManagerNameText = NewManager.transform.Find("ManagerNameText").GetComponent<TMP_Text>();
         ManagerNameText.text = storeobj.StoreName;
-
+        storeobj.ManagerCost = float.Parse(StoreNode.InnerText);
+        Button ManagerButton = NewManager.transform.Find("UnlockManagerButton").GetComponent<Button>();
+        TMP_Text Buttontext = ManagerButton.transform.Find("UnlockManagerButtonText").GetComponent<TMP_Text>();
+        Buttontext.text = "Unlock" + storeobj.ManagerCost.ToString("F2");
     }
    
    
