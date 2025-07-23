@@ -6,13 +6,21 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
 
+    
+
+
+    public enum State
+    {
+        Main, Managers
+    }
     public Text CurrentBallanceText;
     public Text CompanyNameText;
-
-
+    public State CurrentState;
+    public GameObject ManagerPanel;
     // Start is called before the first frame update
     void Start()
     {
+        CurrentState = State.Main;
     }
 
     // Update is called once per frame
@@ -26,6 +34,23 @@ public class UIManager : MonoBehaviour
         GameManager.OnUpdateBalance += UpdateUI;
         LoadGameData.OnLoadDataComplete += UpdateUI;
         
+    }
+    void onShowManagers()
+    {
+        CurrentState = State.Managers;
+        ManagerPanel.SetActive(true);
+    }
+    void onShowMain()
+    {
+        CurrentState = State.Main;
+        ManagerPanel.SetActive(false);
+    }
+    public void onClickManager()
+    {
+        if (CurrentState == State.Main)
+            onShowManagers();
+        else
+            onShowMain();
     }
     void OnDisable()
     {
