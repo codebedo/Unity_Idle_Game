@@ -11,12 +11,13 @@ public class UIManager : MonoBehaviour
 
     public enum State
     {
-        Main, Managers
+        Main, Managers, Upgrades
     }
     public Text CurrentBallanceText;
     public Text CompanyNameText;
     public State CurrentState;
     public GameObject ManagerPanel;
+    public GameObject UpgradePanel;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,15 +41,28 @@ public class UIManager : MonoBehaviour
         CurrentState = State.Managers;
         ManagerPanel.SetActive(true);
     }
+    void onShowUpgrades()
+    {
+        CurrentState = State.Upgrades;
+        UpgradePanel.SetActive(true);
+    }
     void onShowMain()
     {
         CurrentState = State.Main;
         ManagerPanel.SetActive(false);
+        UpgradePanel.SetActive(false);
     }
     public void onClickManager()
     {
         if (CurrentState == State.Main)
             onShowManagers();
+        else
+            onShowMain();
+    } 
+    public void onClickUpgrades()
+    {
+        if (CurrentState == State.Main)
+            onShowUpgrades();
         else
             onShowMain();
     }
