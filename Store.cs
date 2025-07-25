@@ -7,23 +7,22 @@ using System.Threading;
 using System.Globalization;
 public class Store : MonoBehaviour
 {
+    
     public string StoreName;
     public float BaseStoreCost;
     public float BaseStoreProfit;
     public int StoreCount;
     public bool ManagerUnlocked;
+    public bool UpgradeUnlocked;
     public float StoreMultiplier;
-    
     public float StoreTimer;
     float CurrentTimer = 0;
     public float ManagerCost;
-    public bool StartTimer;
-
-    
+    public float UpgradeCost;
+    public float UpgradeMultiplier;
+    public bool StartTimer;    
     public bool StoreUnlocked;
-    public int StoreTimerDivision ;
-    
-    
+    public int StoreTimerDivision ;        
     float NextStoreCost;
 
 
@@ -98,4 +97,31 @@ public class Store : MonoBehaviour
         if(!StartTimer && StoreCount > 0)
           StartTimer = true;
     }
+
+    public  void UnlockManager()
+    {   if (ManagerUnlocked)
+            return;
+        if (GameManager.instance.CanBuy(ManagerCost))
+        {
+            GameManager.instance.AddToBalance(-ManagerCost);
+            ManagerUnlocked = true;
+            this.transform.GetComponent<UIStore>().ManagerUnlocked();
+
+
+        }
+    }
+     public  void UnlockUpgrade()
+    {   if (UpgradeUnlocked)
+            return;
+        if (GameManager.instance.CanBuy(UpgradeCost))
+        {
+            GameManager.instance.AddToBalance(-UpgradeCost);
+            UpgradeUnlocked = true;
+            this.transform.GetComponent<UIStore>().UpgradeUnlocked();
+
+
+        }
+    }
+
+    
 }
