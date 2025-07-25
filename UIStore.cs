@@ -10,11 +10,9 @@ public class UIStore : MonoBehaviour
     public TMP_Text BuyButtonText;
     public Button BuyButton;
     public TMP_Text StoreCountText;
-
     public Store store;
-
     public Button ManagerButton;
-
+    public Button UpgradeButton;
 
    
 
@@ -34,6 +32,11 @@ public class UIStore : MonoBehaviour
     public void ManagerUnlocked()
     {
         TMP_Text Buttontext = ManagerButton.transform.Find("UnlockManagerButtonText").GetComponent<TMP_Text>();
+        Buttontext.text = "PURCHASED";
+    }
+    public void UpgradeUnlocked()
+    {
+        TMP_Text Buttontext = ManagerButton.transform.Find("UnlockUpgradeButtonText").GetComponent<TMP_Text>();
         Buttontext.text = "PURCHASED";
     }
 
