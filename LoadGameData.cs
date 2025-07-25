@@ -144,12 +144,12 @@ public class LoadGameData : MonoBehaviour
         storeobj.UpgradeCost = float.Parse(StoreNode.InnerText);
         Button UpgradeButton = NewUpgrade.transform.Find("UnlockUpgradeButton").GetComponent<Button>();
         TMP_Text Buttontext = UpgradeButton.transform.Find("UnlockUpgradeButtonText").GetComponent<TMP_Text>();
-        Buttontext.text = "Unlock" + storeobj.ManagerCost.ToString("F2");
+        Buttontext.text = "Upgrade" + storeobj.UpgradeCost.ToString("F2");
 
 
         UIStore UIManager = storeobj.GetComponent<UIStore>();
-        UIManager.ManagerButton = ManagerButton;
-        ManagerButton.onClick.AddListener(storeobj.UnlockManager);
+        UIManager.UpgradeButton = UpgradeButton;
+        UpgradeButton.onClick.AddListener(storeobj.UnlockManager);
     }
    
    
