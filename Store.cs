@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using TMPro;
 using System.Threading;
 using System.Globalization;
+using Unity.VisualScripting;
+
 public class Store : MonoBehaviour
 {
     
@@ -20,6 +22,7 @@ public class Store : MonoBehaviour
     public float ManagerCost;
     public float UpgradeCost;
     public float UpgradeMultiplier;
+    public float CurrentMultiplier;
     public bool StartTimer;    
     public bool StoreUnlocked;
     public int StoreTimerDivision ;        
@@ -32,6 +35,7 @@ public class Store : MonoBehaviour
     {
         
         StartTimer = false;
+        CurrentMultiplier = 1f;
     }
 
     public void SetNextStoreCost(float amt)
@@ -69,7 +73,7 @@ public class Store : MonoBehaviour
                 if(!ManagerUnlocked)
                     StartTimer = false;
                 CurrentTimer = 0f;
-                GameManager.instance.AddToBalance(BaseStoreProfit * StoreCount);
+                GameManager.instance.AddToBalance(BaseStoreProfit * StoreCount * CurrentMultiplier);
             }
         }
     }
@@ -117,6 +121,7 @@ public class Store : MonoBehaviour
         {
             GameManager.instance.AddToBalance(-UpgradeCost);
             UpgradeUnlocked = true;
+            CurrentMultiplier = CurrentMultiplier + UpgradeMultiplier;
             this.transform.GetComponent<UIStore>().UpgradeUnlocked();
 
 
