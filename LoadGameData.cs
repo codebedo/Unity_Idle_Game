@@ -116,6 +116,8 @@ public class LoadGameData : MonoBehaviour
             storeobj.StoreCount = int.Parse(StoreNode.InnerText);
         if (StoreNode.Name == "ManagerCost")
             CreateManager(StoreNode, storeobj);
+        if (StoreNode.Name == "UpgradeCost")
+            CreateUpgrade(StoreNode, storeobj);
 
 
     }
@@ -147,9 +149,9 @@ public class LoadGameData : MonoBehaviour
         Buttontext.text = "Upgrade" + storeobj.UpgradeCost.ToString("F2");
 
 
-        UIStore UIManager = storeobj.GetComponent<UIStore>();
-        UIManager.UpgradeButton = UpgradeButton;
-        UpgradeButton.onClick.AddListener(storeobj.UnlockManager);
+        UIStore UIUpgrade = storeobj.GetComponent<UIStore>();
+        UIUpgrade.UpgradeButton = UpgradeButton;
+        UpgradeButton.onClick.AddListener(storeobj.UnlockUpgrade);
     }
    
    
