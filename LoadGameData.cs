@@ -20,6 +20,8 @@ public class LoadGameData : MonoBehaviour
     public GameObject StorePanel;
     public GameObject ManagerPanel;
     public GameObject ManagerPrefab;
+    public GameObject UpgradePanel;
+    public GameObject UpgradePrefab;
 
     public void Start()
     {
@@ -131,7 +133,23 @@ public class LoadGameData : MonoBehaviour
 
         UIStore UIManager = storeobj.GetComponent<UIStore>();
         UIManager.ManagerButton = ManagerButton;
-        ManagerButton.onClick.AddListener(storeobj.UnlockManager());
+        ManagerButton.onClick.AddListener(storeobj.UnlockManager);
+    }
+    void CreateUpgrade(XmlNode StoreNode, Store storeobj)
+    {
+        GameObject NewUpgrade = (GameObject)Instantiate(UpgradePrefab);
+        NewUpgrade.transform.SetParent(ManagerPanel.transform);
+        TMP_Text UpgradeNameText = NewUpgrade.transform.Find("UpgradeNameText").GetComponent<TMP_Text>();
+        UpgradeNameText.text = storeobj.StoreName;
+        storeobj.UpgradeCost = float.Parse(StoreNode.InnerText);
+        Button UpgradeButton = NewUpgrade.transform.Find("UnlockUpgradeButton").GetComponent<Button>();
+        TMP_Text Buttontext = UpgradeButton.transform.Find("UnlockUpgradeButtonText").GetComponent<TMP_Text>();
+        Buttontext.text = "Unlock" + storeobj.ManagerCost.ToString("F2");
+
+
+        UIStore UIManager = storeobj.GetComponent<UIStore>();
+        UIManager.ManagerButton = ManagerButton;
+        ManagerButton.onClick.AddListener(storeobj.UnlockManager);
     }
    
    
