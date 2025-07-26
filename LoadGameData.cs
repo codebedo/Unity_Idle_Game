@@ -23,6 +23,8 @@ public class LoadGameData : MonoBehaviour
     public GameObject UpgradePanel;
     public GameObject UpgradePrefab;
 
+    public float CurrentUpgradeCost;
+
     public void Start()
     {
         LoadData();
@@ -74,7 +76,6 @@ public class LoadGameData : MonoBehaviour
         XmlNodeList StoreNodes = StoreInfo.ChildNodes;
         foreach (XmlNode StoreNode in StoreNodes)
         {
-
             SetStoreObj(storeobj, StoreNode, NewStore);
 
 
@@ -100,7 +101,6 @@ public class LoadGameData : MonoBehaviour
             Image StoreImage = NewStore.GetComponent<Image>();
             StoreImage.sprite = newSprite;
         }
-
         if (StoreNode.Name == "BaseStoreProfit")
             storeobj.BaseStoreProfit = float.Parse(StoreNode.InnerText, System.Globalization.CultureInfo.InvariantCulture);
         if (StoreNode.Name == "BaseStoreCost")
@@ -116,10 +116,22 @@ public class LoadGameData : MonoBehaviour
             storeobj.StoreCount = int.Parse(StoreNode.InnerText);
         if (StoreNode.Name == "ManagerCost")
             CreateManager(StoreNode, storeobj);
-        if (StoreNode.Name == "UpgradeCost")
-            CreateUpgrade(StoreNode, storeobj);
+        if (StoreNode.Name == "Upgrades")
+            CreateUpgrades(StoreNode, storeobj);
+        
 
 
+    }
+
+    void CreateUpgrades(XmlNode UpgradesNode, Store storeobj)
+    {
+
+        foreach (XmlNode UpgradeNode in UpgradesNode)
+        {
+            CreateUpgrade(UpgradeNode, storeobj);
+
+
+        }
     }
     void CreateManager(XmlNode StoreNode, Store storeobj)
     {
@@ -137,17 +149,31 @@ public class LoadGameData : MonoBehaviour
         UIManager.ManagerButton = ManagerButton;
         ManagerButton.onClick.AddListener(storeobj.UnlockManager);
     }
-    void CreateUpgrade(XmlNode StoreNode, Store storeobj)
+    void CreateUpgrade(XmlNode UpgradeNode, Store storeobj)
     {
+        float UpgradeMultiplier = 1f;
+        float UpgradeCost = 1f;
+        foreach (XmlNode UpgradeInfo in UpgradeNode)
+        {
+            if (UpgradeInfo.Name == "UpgradeMultiplier")
+                UpgradeMultiplier = float.Parse(UpgradeInfo.InnerText);
+            if (UpgradeInfo.Name == "UpgradeCost")
+                UpgradeCost = float.Parse(UpgradeInfo.InnerText);
+        }
         GameObject NewUpgrade = (GameObject)Instantiate(UpgradePrefab);
-        NewUpgrade.transform.SetParent(ManagerPanel.transform);
-        TMP_Text UpgradeNameText = NewUpgrade.transform.Find("UpgradeNameText").GetComponent<TMP_Text>();
-        UpgradeNameText.text = storeobj.StoreName;
-        storeobj.UpgradeCost = float.Parse(StoreNode.InnerText);
+        NewUpgrade.transform.SetParent(UpgradePanel.transform);
+
+        TMP_Text UpgradesNameText = NewUpgrade.transform.Find("UpgradesNameText").GetComponent<TMP_Text>();
+        UpgradesNameText.text = storeobj.StoreName;
+        storeobj.UpgradeMultiplier = UpgradeMultiplier;
+        storeobj.UpgradeCost = UpgradeCost;
         Button UpgradeButton = NewUpgrade.transform.Find("UnlockUpgradeButton").GetComponent<Button>();
         TMP_Text Buttontext = UpgradeButton.transform.Find("UnlockUpgradeButtonText").GetComponent<TMP_Text>();
         Buttontext.text = "Upgrade" + storeobj.UpgradeCost.ToString("F2");
 
+        StoreUpgrd StoreUpgrade = NewUpgrade.GetComponent<StoreUpgrd>();
+        StoreUpgrade.UpgradeCost = UpgradeCost;
+        StoreUpgrade.UpgradeMultiplier = UpgradeMultiplier;
 
         UIStore UIUpgrade = storeobj.GetComponent<UIStore>();
         UIUpgrade.UpgradeButton = UpgradeButton;
